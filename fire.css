@@ -1,0 +1,22 @@
+/* Styles for the fire effect container */
+
+.fire-container {
+    position: fixed; /* Position relative to the viewport */
+    bottom: 0; /* Stick to the bottom */
+    left: 0;
+    width: 100%; /* Cover the full width */
+    height: 50vh; /* Cover the bottom half of the viewport height */
+    z-index: 1; /* Place it above the background but below the title/buttons */
+    pointer-events: none; /* Allow clicks/interactions to pass through */
+    overflow: hidden; /* Clip any fire elements that go beyond the container */
+    /* Filter is now applied via WebGL alpha blending, not SVG filter */
+    /* filter: url(#fire-distortion); */
+    display: flex; /* Use flex to position canvas */
+    align-items: flex-end; /* Align canvas to the bottom */
+    justify-content: center; /* Center canvas horizontally */
+    /* Add background to the container itself for fallback/base if needed */
+    background: transparent; /* Ensure transparency to see background body */
+}
+
+/* Styles for the canvas element within the container will be set by the JS */
+/* .fire-container canvas { ... } */

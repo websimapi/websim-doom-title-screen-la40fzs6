@@ -1,0 +1,68 @@
+.main-menu {
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center; /* Center buttons horizontally */
+    margin-top: 20px; /* Add some space above the buttons */
+    position: relative; /* Needed for positioning relative to this container */
+    z-index: 10; /* Ensure buttons are above potentially animated elements if any */
+}
+
+/* Hide the main menu if the body has the 'is-automated' class */
+body.is-automated .main-menu {
+    display: none;
+}
+
+.main-menu button {
+    /* Existing solid background for the button area */
+    background-color: #8a0303; /* Dark red, similar to original DOOM buttons */
+    color: white; /* Fallback color, though text-fill-color will make it transparent */
+    border: 2px solid #ff0000; /* Bright red border */
+    padding: 10px 20px;
+    margin: 5px 0; /* Space between buttons */
+    font-size: 1.2em;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    /* Give the title menu buttons a deeper shadow effect */
+    box-shadow: 6px 6px 0 #000; /* Increased offset for a deeper shadow */
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.1s ease, transform 0.1s ease; /* Add shadow and transform to transition */
+    min-width: 200px; /* Give buttons a minimum width */
+
+    /* Add the shader effect to the text */
+    /* Define the gradient for the text */
+    background-image: linear-gradient(to right, gold, #ff4500, red, gold);
+    /* Set background size larger than button to allow movement */
+    background-size: 200% auto;
+    /* Clip the background to the text */
+    -webkit-background-clip: text;
+    background-clip: text;
+    /* Make the text itself transparent so the background shows through */
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
+    /* Apply animation */
+    animation: text-shader 5s linear infinite;
+}
+
+/* Keyframes for the shader animation */
+@keyframes text-shader {
+    to {
+        /* Move the background image position */
+        background-position: 200% center;
+    }
+}
+
+.main-menu button:hover {
+    background-color: #ff0000; /* Bright red on hover */
+    border-color: #ffffff; /* White border on hover */
+    /* Optional: Make the shader slightly faster or change */
+    animation-duration: 3s;
+}
+
+.main-menu button:active {
+    background-color: #cc0000; /* Slightly darker red when clicked */
+    /* Simulate being pressed down - adjust shadow and transform */
+    box-shadow: 2px 2px 0 #000; /* Reduced shadow when pressed */
+    transform: translate(4px, 4px); /* Move button down/right by the difference in shadow offset */
+    /* Optional: Pause or change animation on active */
+    animation-play-state: paused;
+}

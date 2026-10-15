@@ -1,0 +1,266 @@
+body {
+    margin: 0;
+    /* Add positioning and overflow hiding for fire effect */
+    position: relative; /* Ensure body is positioned for absolute/fixed children */
+
+    /* Add the new background image */
+    /* Add multiple background layers: gradient first, then image */
+    background-image:
+        linear-gradient(to bottom,
+            #800000 0%,    /* Maroon at top */
+            #B22222 50px,  /* Firebrick */
+            #CD5C5C 150px, /* IndianRed */
+            #D2691E 200px, /* Chocolate */
+            rgba(210, 105, 30, 0) 250px  /* Fade out to transparent below the gradient height */
+        ),
+        url('/doom_background.png'); /* Second layer is the image */
+
+    /* Apply positioning and size to BOTH backgrounds */
+    /* Gradient position: top left (covers the top area) */
+    /* Image position: center 150px (shifted down as before) */
+    background-position: top left, center 150px;
+
+    /* Gradient size: 100% width, 250px height (to cover the area above the shifted image and fade) */
+    /* Image size: cover the background area */
+    background-size: 100% 250px, cover;
+
+    background-repeat: no-repeat, no-repeat; /* Explicitly no-repeat for both */
+    background-attachment: fixed, fixed; /* Explicitly fixed for both */
+
+    font-family: sans-serif; /* Generic fallback font */
+    color: white;
+    /* Remove min-height: 100vh as it interacts poorly with large padding-bottom */
+    /* min-height: 100vh; */
+    /* Prevent all scrolling */
+    overflow: hidden;
+
+    /* Add some top padding to ensure content isn't right at the edge */
+    padding-top: 30px; /* Adjust as needed to position content lower */
+    padding-bottom: 50vh; /* Add padding to ensure title is above fire area */
+    box-sizing: border-box; /* Include padding in element's total height */
+}
+
+/* Remove the pseudo-element for the dark gradient at the top */
+/*
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* Make the height sufficient to cover the area above the image */
+/*
+    height: 400px; /* Adjust height as needed to cover the top area */
+    /* Ensure it's below title/buttons but above fire/background image */
+/*
+    z-index: 5;
+    pointer-events: none; /* Allow clicks to pass through */
+    /* Add the gradient overlay from dark red to transparent */
+/*
+    background: linear-gradient(to bottom,
+        #660000 0%, /* Darker blood red at the very top */
+/*
+        rgba(102, 0, 0, 0.8) 100px, /* Slightly less opaque blood red */
+/*
+        rgba(102, 0, 0, 0.0) 400px /* Fully transparent further down */
+/*
+    );
+    /* Ensure it doesn't repeat */
+/*
+    background-repeat: no-repeat;
+}
+*/
+
+/* Define the custom font */
+@font-face {
+    font-family: 'AmazDooM';
+    src: url('/AmazDooMLeft.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AmazDooMRight';
+    src: url('/AmazDooMRight.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Remove the old background animation keyframes as the gradient is removed */
+/*
+@keyframes background-pulse {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 0% 100%; }
+    100% { background-position: 0% 0%; }
+}
+*/
+
+.title-container {
+    position: relative; /* Keep relative positioning */
+    width: 100%;
+    text-align: center;
+    padding: 0 20px; /* Keep horizontal padding */
+    box-sizing: border-box;
+    /* Remove flex-shrink property as body is no longer a flex container */
+    /* flex-shrink: 0; */
+     z-index: 10; /* Ensure title/buttons are above fire and gradient overlay */
+     /* Ensure title container is in the normal flow */
+     margin-top: 0; /* Reset potential default margin */
+     margin-bottom: 0; /* Reset potential default margin */
+     /* Remove padding-top from title-container as body already has it */
+     /* padding-top: 30px; */
+}
+
+.doom-title {
+    /* Apply base styles to the h1 */
+    font-size: 464px; /* Increased font size by 1.2x (220 * 1.2) */
+    font-weight: bold;
+    margin-top: 0; /* Remove default h1 top margin */
+    margin-bottom: 0; /* Remove default h1 bottom margin */
+   padding:2px;
+    /* Enhanced gradient adjusted to match image reference */
+    /* Refined gradient based on image: Darker blue/purple at top, brighter gold/yellow/white at bottom */
+    background: linear-gradient(to bottom, #1a0033, #3a1e8e, #6b45fb, #ffc300, #ffff00, #ffffff);
+    /* Apply clip and fill to the h1, children will inherit */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
+    /* Prevent pseudo-element logic, styling spans instead */
+    position: relative;
+    /* Ensure no extra space between inline-block spans */
+
+    /* Make children inline-block to avoid vertical issues */
+    display: inline-block;
+}
+
+/* Style for the 'DO' part */
+.doom-title-do {
+    font-family: 'AmazDooM', sans-serif; /* Use custom font with fallback */
+    display: inline-block; /* Ensure it behaves correctly with widths/margins */
+    letter-spacing: -10px; /* Increased spacing for 'DO' */
+
+}
+
+/* Style for the 'OM' part */
+.doom-title-om {
+    font-family: 'AmazDooMRight', sans-serif; /* Use the right font */
+    display: inline-block; /* Ensure it behaves correctly */
+    /* Adjust spacing between 'DO' and 'OM' if needed */
+    /* Removed negative margin to space 'OM' away from 'DO' */
+     margin-left: 10px; /* Added a small positive margin between DO and OM */
+     letter-spacing: -10px; /* Increased spacing for 'OM' */
+
+}
+
+/* Styles for the fog effect container */
+.fog-container {
+    position: fixed; /* Position relative to the viewport */
+    top: 0; /* Stick to the top */
+    left: 0;
+    width: 100%; /* Cover the full width */
+    height: 100vh; /* Cover the full viewport height */
+    z-index: 5; /* Place it above the background image but below the title/buttons */
+    pointer-events: none; /* Allow clicks/interactions to pass through */
+    overflow: hidden; /* Clip any fog elements that go beyond the container */
+    /* Filter is now applied via WebGL alpha blending, not SVG filter */
+    /* filter: url(#fire-distortion); */
+    display: block; /* Ensure it takes up space */
+}
+
+/* --- Automated Browser Styles --- */
+/* Make the DOOM title larger when body has 'is-automated' class */
+body.is-automated .doom-title {
+    font-size: 600px; /* Increase size significantly for automated */
+    /* Adjust margin/padding if needed for the new size */
+    padding-top: 0;
+    padding-bottom: 0;
+    /* margin-top: -50px; */ /* Adjust vertical position */
+    margin-top: 25px; /* Move down by ~75px from -50px */
+    margin-bottom: -50px;
+}
+
+body.is-automated .doom-title-do,
+body.is-automated .doom-title-om {
+    /* Adjust spacing if needed for larger font */
+     letter-spacing: -20px; /* Increase spacing */
+     margin-left: 20px; /* Increase space between DO and OM */
+}
+/* --- End Automated Browser Styles --- */
+
+
+/* Add responsive adjustments */
+@media (max-width: 768px) {
+    .doom-title {
+        font-size: 168px; /* Adjust font size by 1.2x for smaller screens (140 * 1.2) */
+        /* letter-spacing: -7px; Remove from h1 */
+         /* Remove specific margin from h1 in media queries */
+         margin-top: 0;
+         margin-bottom: 0;
+    }
+    .doom-title-do, .doom-title-om {
+         letter-spacing: -5px; /* Apply spacing to spans */
+         /* Adjusted margin for smaller screens */
+         margin-left: 5px;
+    }
+    .id-software {
+        bottom: 10px;
+        right: 10px;
+        font-size: 12px;
+    }
+    /* Adjust fog container height on smaller screens */
+    /* Fog container now covers full height */
+    /*
+    .fog-container {
+        height: 250px;
+    }
+    */
+
+    /* --- Automated Browser Styles for 768px --- */
+    body.is-automated .doom-title {
+         font-size: 250px; /* Make larger than normal 168px */
+         /* margin-top: -30px; */
+         margin-top: 45px; /* Move down by ~75px from -30px */
+         margin-bottom: -30px;
+    }
+    body.is-automated .doom-title-do,
+    body.is-automated .doom-title-om {
+        letter-spacing: -10px;
+        margin-left: 10px;
+    }
+    /* --- End Automated Browser Styles --- */
+}
+
+@media (max-width: 480px) {
+    .doom-title {
+        font-size: 120px; /* Further adjust by 1.2x for very small screens (100 * 1.2) */
+        /* Remove specific margin from h1 in media queries */
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+     .doom-title-do, .doom-title-om {
+         letter-spacing: -3px; /* Apply spacing to spans */
+          /* Adjusted margin for smallest screens */
+         margin-left: 3px;
+     }
+     /* Adjust fog container height on smallest screens */
+     /* Fog container now covers full height */
+     /*
+     .fog-container {
+        height: 180px;
+     }
+     */
+    /* --- Automated Browser Styles for 480px --- */
+    body.is-automated .doom-title {
+         font-size: 180px; /* Make larger than normal 120px */
+         /* margin-top: -20px; */
+         margin-top: 55px; /* Move down by ~75px from -20px */
+         margin-bottom: -20px;
+    }
+     body.is-automated .doom-title-do,
+    body.is-automated .doom-title-om {
+        letter-spacing: -8px;
+        margin-left: 8px;
+    }
+    /* --- End Automated Browser Styles --- */
+}
